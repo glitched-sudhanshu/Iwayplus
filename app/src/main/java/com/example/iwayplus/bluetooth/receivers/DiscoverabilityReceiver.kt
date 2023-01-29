@@ -17,13 +17,13 @@ class DiscoverabilityReceiver : BroadcastReceiver() {
                 when(intent.getIntExtra(BluetoothAdapter.EXTRA_SCAN_MODE, BluetoothAdapter.ERROR))
                 {
                     BluetoothAdapter.SCAN_MODE_CONNECTABLE ->{
-                        Log.d("BTDiscoverability", "Connectable")
+                        Log.d("onBTDiscoverability", "Connectable")
                     }
                     BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE ->{
-                        Log.d("BTDiscoverability", "Discoverable")
+                        Log.d("onBTDiscoverability", "Discoverable")
                     }
                     BluetoothAdapter.SCAN_MODE_NONE ->{
-                        Log.d("BTDiscoverability", "None")
+                        Log.d("onBTDiscoverability", "None")
                     }
                 }
             }
