@@ -9,15 +9,10 @@ import android.content.Intent
 import android.util.Log
 import kotlin.math.log
 
-object DiscoverDeviceReceiver : BroadcastReceiver() {
+class DiscoverDeviceReceiver : BroadcastReceiver() {
 
-    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context?, intent: Intent?) {
-
-        Log.d("onBTDiscoverDevice", "here")
-        val action = intent?.action.toString()
-        when(action)
-        {
+        when (intent?.action) {
             BluetoothAdapter.ACTION_STATE_CHANGED -> {
                 Log.d("onBTDiscoverDevice", "ACTION_STATE_CHANGED")
             }
@@ -28,10 +23,13 @@ object DiscoverDeviceReceiver : BroadcastReceiver() {
                 Log.d("onBTDiscoverDevice", "ACTION_DISCOVERY_FINISHED")
             }
             BluetoothDevice.ACTION_FOUND -> {
-                val device = intent?.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                device?.let {
-                    Log.d("onBTDiscoverDevice", "${device.name} ${device
-                        .address}")
+                val device =
+                    intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                if (device != null) {
+                    Log.d("onBTDiscoverDevice", "${device.name} ${
+                        device
+                            .address
+                    }")
                 }
 
             }
