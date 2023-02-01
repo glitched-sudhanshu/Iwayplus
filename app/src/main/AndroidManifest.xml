@@ -12,10 +12,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"/>
+
 
     <application
+         android:name=".di.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -25,22 +28,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IWAYPLUS"
         tools:targetApi="31">
+        <service android:name="com.example.iwayplus.model.gpsUtils.LocationService" android:foregroundServiceType="location"/>
         <activity
-            android:name=".magnetometer.CompassActivity"
+            android:name=".views.activities.CompassActivity"
             android:exported="false" />
         <activity
-            android:name=".location.GpsLocationActivity"
+            android:name=".views.activities.GpsLocationActivity"
             android:exported="false"
             android:label="@string/title_activity_gps_location"
             android:theme="@style/Theme.IWAYPLUS.NoActionBar" />
         <activity
-            android:name=".pedometer.StepCounterActivity"
+            android:name="com.example.iwayplus.views.activities.StepCounterActivity"
             android:exported="false" />
         <activity
-            android:name=".TempBtActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".views.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".bluetooth.BluetoothActivity"
+            android:name=".views.activities.BluetoothActivity"
             android:exported="true"
             android:label="Bluetooth Activity" />
     </application>

@@ -1,4 +1,4 @@
-package com.example.iwayplus.pedometer
+package com.example.iwayplus.views.activities
 
 import android.Manifest
 import android.content.Context
@@ -15,8 +15,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.iwayplus.databinding.ActivityStepCounterBinding
-import com.example.iwayplus.utils.Constants.ACTIVITY_RECOGNITION_REQUEST_CODE
-import com.example.iwayplus.utils.Constants.TOTAL_STEPS
+import com.example.iwayplus.model.utils.Constants.ACTIVITY_RECOGNITION_REQUEST_CODE
+import com.example.iwayplus.model.utils.Constants.TOTAL_STEPS
 
 class StepCounterActivity : AppCompatActivity(), SensorEventListener {
     private var running = false

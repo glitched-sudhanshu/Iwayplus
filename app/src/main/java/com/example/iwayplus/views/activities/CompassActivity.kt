@@ -1,4 +1,4 @@
-package com.example.iwayplus.magnetometer
+package com.example.iwayplus.views.activities
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -6,11 +6,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
 import com.example.iwayplus.databinding.ActivityCompassBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CompassActivity : AppCompatActivity(), View.OnClickListener, SensorEventListener {
     private lateinit var mBinding : ActivityCompassBinding
     private lateinit var sensorManager : SensorManager
@@ -22,6 +22,8 @@ class CompassActivity : AppCompatActivity(), View.OnClickListener, SensorEventLi
     private var floatOrientation : FloatArray? = FloatArray(3)
     private var floatRotationMatrix : FloatArray? = FloatArray(9)
 
+//    private val viewModel by viewModels<CompassViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityCompassBinding.inflate(layoutInflater)
@@ -31,9 +33,17 @@ class CompassActivity : AppCompatActivity(), View.OnClickListener, SensorEventLi
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
 
+
         mBinding.btnReset.setOnClickListener(this)
 
+
+//        mBinding.compass.rotation = viewModel.finalAngle.value
+
+
     }
+
+
+
 
     override fun onResume() {
         super.onResume()

@@ -1,4 +1,4 @@
-package com.example.iwayplus.bluetooth
+package com.example.iwayplus.views.activities
 
 
 import android.Manifest
@@ -15,15 +15,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.iwayplus.bluetooth.receivers.BluetoothReceiver
-import com.example.iwayplus.bluetooth.receivers.DiscoverDeviceReceiver
-import com.example.iwayplus.bluetooth.receivers.DiscoverabilityReceiver
+import com.example.iwayplus.receivers.BluetoothReceiver
+import com.example.iwayplus.receivers.DiscoverDeviceReceiver
+import com.example.iwayplus.receivers.DiscoverabilityReceiver
 import com.example.iwayplus.databinding.ActivityBluetoothBinding
-import com.example.iwayplus.utils.Constants.REQUEST_ACCESS_COARSE_LOCATION
-import com.example.iwayplus.utils.Constants.REQUEST_BLUETOOTH_SCAN
-import com.example.iwayplus.utils.Constants.REQUEST_DISCOVERABILITY_BT
-import com.example.iwayplus.utils.Constants.REQUEST_ENABLE_BT
-import com.example.iwayplus.utils.Constants.REQUEST_PAIRED_BT
+import com.example.iwayplus.model.utils.Constants.REQUEST_ACCESS_COARSE_LOCATION
+import com.example.iwayplus.model.utils.Constants.REQUEST_BLUETOOTH_SCAN
+import com.example.iwayplus.model.utils.Constants.REQUEST_DISCOVERABILITY_BT
+import com.example.iwayplus.model.utils.Constants.REQUEST_ENABLE_BT
+import com.example.iwayplus.model.utils.Constants.REQUEST_PAIRED_BT
 
 
 class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
@@ -100,6 +100,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
         discoverDevices()
     }
 
+    @SuppressLint("MissingPermission")
     private fun discoverDevices() {
         bluetoothAdapter.startDiscovery()
         Log.d("discoverDevices", "Permission Granted")
@@ -109,6 +110,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
         mReceiverDiscoverDevices = DiscoverDeviceReceiver()
         registerReceiver(mReceiverDiscoverDevices, filter)
+//        bluetoothAdapter.cancelDiscovery()
     }
 
 //    private var mReceiverDiscoverDevices = object : BroadcastReceiver() {
@@ -152,6 +154,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    @SuppressLint("MissingPermission")
     private fun enableDiscoverability() {
 //        try {
         val intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
@@ -160,6 +163,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
         val intentFiler = IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)
         mReceiverDiscoverability = DiscoverabilityReceiver()
         registerReceiver(mReceiverDiscoverability, intentFiler)
+        unregisterReceiver(mReceiverDiscoverDevices)
 //        } catch (e : SecurityException){
 //                Log.i("Bluetooth Discoverability Permission", "Permission Revoked")
 //        }
@@ -257,7 +261,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mReceiverDiscoverDevices != null) unregisterReceiver(mReceiverDiscoverDevices)
+//        if (mReceiverDiscoverDevices != null) unregisterReceiver(mReceiverDiscoverDevices)
         if (mReceiverDiscoverability != null) unregisterReceiver(mReceiverDiscoverability)
         if (mReceiverEnableDisable != null) unregisterReceiver(mReceiverEnableDisable)
 

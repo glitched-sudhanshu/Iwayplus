@@ -1,13 +1,10 @@
-package com.example.iwayplus
+package com.example.iwayplus.views.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.example.iwayplus.bluetooth.BluetoothActivity
 import com.example.iwayplus.databinding.ActivityMainBinding
-import com.example.iwayplus.magnetometer.CompassActivity
-import com.example.iwayplus.pedometer.StepCounterActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mBinding : ActivityMainBinding
@@ -23,6 +20,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mBinding.imgBluetooth.setOnClickListener(this)
         mBinding.imgStepCounter.setOnClickListener(this)
         mBinding.imgCompass.setOnClickListener(this)
+        mBinding.imgLocation.setOnClickListener(this)
+
     }
 
     override fun onClick(view: View?) {
@@ -39,6 +38,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             mBinding.imgCompass.id -> {
                 val intent = Intent(this@MainActivity, CompassActivity::class.java)
+                startActivity(intent)
+            }
+            mBinding.imgLocation.id -> {
+                val intent = Intent(this@MainActivity, GpsLocationActivity::class.java)
                 startActivity(intent)
             }
         }

@@ -1,4 +1,4 @@
-package com.example.iwayplus.bluetooth.receivers
+package com.example.iwayplus.receivers
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
@@ -7,10 +7,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import kotlin.math.log
+import android.widget.Toast
 
 class DiscoverDeviceReceiver : BroadcastReceiver() {
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
             BluetoothAdapter.ACTION_STATE_CHANGED -> {
@@ -30,6 +31,7 @@ class DiscoverDeviceReceiver : BroadcastReceiver() {
                         device
                             .address
                     }")
+                    Toast.makeText(context, "${device.name}", Toast.LENGTH_SHORT).show()
                 }
 
             }
