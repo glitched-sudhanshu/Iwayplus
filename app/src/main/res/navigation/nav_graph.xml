@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.iwayplus.views.fragments.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_stepCounterFragment"
+            app:destination="@id/stepCounterFragment"
+             />
+        <action
+            android:id="@+id/action_homeFragment_to_locationTrackerFragment"
+            app:destination="@id/locationTrackerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bluetoothFragment"
+            app:destination="@id/bluetoothFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_compassFragment"
+            app:destination="@id/compassFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/stepCounterFragment"
+        android:name="com.example.iwayplus.views.fragments.StepCounterFragment"
+        android:label="Step Counter"
+        tools:layout="@layout/fragment_step_counter" >
+        <action
+            android:id="@+id/action_stepCounterFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/bluetoothFragment"
+        android:name="com.example.iwayplus.views.fragments.BluetoothFragment"
+        android:label="Bluetooth"
+        tools:layout="@layout/fragment_bluetooth" >
+        <action
+            android:id="@+id/action_bluetoothFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/compassFragment"
+        android:name="com.example.iwayplus.views.fragments.CompassFragment"
+        android:label="Compass"
+        tools:layout="@layout/fragment_compass" >
+        <action
+            android:id="@+id/action_compassFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/locationTrackerFragment"
+        android:name="com.example.iwayplus.views.fragments.LocationTrackerFragment"
+        android:label="Location Tracker"
+        tools:layout="@layout/fragment_location_tracker" >
+        <action
+            android:id="@+id/action_locationTrackerFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

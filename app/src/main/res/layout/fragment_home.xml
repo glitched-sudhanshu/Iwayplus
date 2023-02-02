@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.fragments.HomeFragment">
+
+    <ImageButton
+        android:id="@+id/imgBluetooth"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_bluetooth"
+        app:layout_constraintBottom_toTopOf="@+id/imgLocation"
+        app:layout_constraintEnd_toStartOf="@+id/imgStepCounter"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_bluetooth" />
+
+    <ImageButton
+        android:id="@+id/imgStepCounter"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_walk"
+        app:layout_constraintBottom_toTopOf="@+id/imgCompass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgBluetooth"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_walk" />
+
+    <ImageButton
+        android:id="@+id/imgLocation"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgCompass"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgBluetooth"
+        tools:srcCompat="@drawable/ic_location" />
+
+    <ImageButton
+        android:id="@+id/imgCompass"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_compass"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgLocation"
+        app:layout_constraintTop_toBottomOf="@+id/imgStepCounter" />
+
+    <TextView
+        android:id="@+id/txtBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Bluetooth"
+        android:textColor="#4C4B4B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgBluetooth"
+        app:layout_constraintStart_toStartOf="@+id/imgBluetooth"
+        app:layout_constraintTop_toBottomOf="@+id/imgBluetooth" />
+
+    <TextView
+        android:id="@+id/txtStepCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Step counter"
+        android:textColor="#4C4B4B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgStepCounter"
+        app:layout_constraintStart_toStartOf="@+id/imgStepCounter"
+        app:layout_constraintTop_toBottomOf="@+id/imgStepCounter" />
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Location"
+        android:textColor="#4C4B4B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgLocation"
+        app:layout_constraintStart_toStartOf="@+id/imgLocation"
+        app:layout_constraintTop_toBottomOf="@+id/imgLocation" />
+
+    <TextView
+        android:id="@+id/txtCompass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Compass"
+        android:textColor="#4C4B4B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgCompass"
+        app:layout_constraintStart_toStartOf="@+id/imgCompass"
+        app:layout_constraintTop_toBottomOf="@+id/imgCompass" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

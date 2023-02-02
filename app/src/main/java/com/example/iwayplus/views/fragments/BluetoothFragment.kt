@@ -1,101 +1,99 @@
-package com.example.iwayplus.views.activities
-
+package com.example.iwayplus.views.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.content.*
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.iwayplus.databinding.FragmentBluetoothBinding
+import com.example.iwayplus.model.utils.Constants
 import com.example.iwayplus.receivers.BluetoothReceiver
 import com.example.iwayplus.receivers.DiscoverDeviceReceiver
 import com.example.iwayplus.receivers.DiscoverabilityReceiver
-import com.example.iwayplus.databinding.ActivityBluetoothBinding
-import com.example.iwayplus.model.utils.Constants.REQUEST_ACCESS_COARSE_LOCATION
-import com.example.iwayplus.model.utils.Constants.REQUEST_BLUETOOTH_SCAN
-import com.example.iwayplus.model.utils.Constants.REQUEST_DISCOVERABILITY_BT
-import com.example.iwayplus.model.utils.Constants.REQUEST_ENABLE_BT
-import com.example.iwayplus.model.utils.Constants.REQUEST_PAIRED_BT
 
+class BluetoothFragment : Fragment(), View.OnClickListener {
 
-class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var mBinding: ActivityBluetoothBinding
+    private var mBinding : FragmentBluetoothBinding? = null
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private var mReceiverEnableDisable: BluetoothReceiver? = null
     private var mReceiverDiscoverability: DiscoverabilityReceiver? = null
     private var mReceiverDiscoverDevices: DiscoverDeviceReceiver? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
 
-        mBinding = ActivityBluetoothBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
+        mBinding = FragmentBluetoothBinding.inflate(inflater, container, false)
+        return mBinding!!.root
+    }
 
-        bluetoothManager = getSystemService(BluetoothManager::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bluetoothManager = context?.getSystemService(BluetoothManager::class.java)!!
         bluetoothAdapter = bluetoothManager.adapter
 
         onClickListeners()
-
-
-
-
     }
 
     private fun onClickListeners() {
-        mBinding.btnEnableBT.setOnClickListener(this)
-        mBinding.btnDiscoverability.setOnClickListener(this)
-        mBinding.btnPairedDevice.setOnClickListener(this)
-        mBinding.btnDiscoverDevices.setOnClickListener(this)
+        mBinding!!.btnEnableBT.setOnClickListener(this)
+        mBinding!!.btnDiscoverability.setOnClickListener(this)
+        mBinding!!.btnPairedDevice.setOnClickListener(this)
+        mBinding!!.btnDiscoverDevices.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            mBinding.btnEnableBT.id -> {
+            mBinding!!.btnEnableBT.id -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     getPermissionForBt(Manifest.permission.BLUETOOTH_CONNECT,
-                        REQUEST_ENABLE_BT)
+                        Constants.REQUEST_ENABLE_BT)
                 } else enableBt()
             }
 
-            mBinding.btnDiscoverability.id -> {
+            mBinding!!.btnDiscoverability.id -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     getPermissionForBt(Manifest.permission.BLUETOOTH_ADVERTISE,
-                        REQUEST_DISCOVERABILITY_BT)
+                        Constants.REQUEST_DISCOVERABILITY_BT)
                 } else enableDiscoverability()
             }
 
-            mBinding.btnPairedDevice.id -> {
+            mBinding!!.btnPairedDevice.id -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     getPermissionForBt(Manifest.permission.BLUETOOTH_CONNECT,
-                        REQUEST_PAIRED_BT)
+                        Constants.REQUEST_PAIRED_BT)
                 } else getPairedDevice()
             }
 
-            mBinding.btnDiscoverDevices.id -> getDiscoverDevicesPermission()
+            mBinding!!.btnDiscoverDevices.id -> getDiscoverDevicesPermission()
         }
     }
 
     private fun getDiscoverDevicesPermission() {
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
             getPermissionForBt(Manifest.permission.ACCESS_COARSE_LOCATION,
-                REQUEST_ACCESS_COARSE_LOCATION)
+                Constants.REQUEST_ACCESS_COARSE_LOCATION)
         }
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED
         ) {
-            getPermissionForBt(Manifest.permission.BLUETOOTH_SCAN, REQUEST_BLUETOOTH_SCAN)
+            getPermissionForBt(Manifest.permission.BLUETOOTH_SCAN, Constants.REQUEST_BLUETOOTH_SCAN)
         }
         discoverDevices()
     }
@@ -109,7 +107,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED)
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
         mReceiverDiscoverDevices = DiscoverDeviceReceiver()
-        registerReceiver(mReceiverDiscoverDevices, filter)
+        context?.registerReceiver(mReceiverDiscoverDevices, filter)
 //        bluetoothAdapter.cancelDiscovery()
     }
 
@@ -162,27 +160,27 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(intent)
         val intentFiler = IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)
         mReceiverDiscoverability = DiscoverabilityReceiver()
-        registerReceiver(mReceiverDiscoverability, intentFiler)
-        unregisterReceiver(mReceiverDiscoverDevices)
+        context?.registerReceiver(mReceiverDiscoverability, intentFiler)
+//        context?.unregisterReceiver(mReceiverDiscoverDevices)
 //        } catch (e : SecurityException){
 //                Log.i("Bluetooth Discoverability Permission", "Permission Revoked")
 //        }
     }
 
     private fun getPermissionForBt(BtPermission: String, requestCode: Int) {
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(requireContext(),
                 BtPermission) == PackageManager.PERMISSION_GRANTED
         ) {
             when (requestCode) {
-                REQUEST_ENABLE_BT -> enableBt()
-                REQUEST_DISCOVERABILITY_BT -> enableDiscoverability()
-                REQUEST_PAIRED_BT -> getPairedDevice()
-                REQUEST_ACCESS_COARSE_LOCATION -> discoverDevices()
-                REQUEST_BLUETOOTH_SCAN -> discoverDevices()
+                Constants.REQUEST_ENABLE_BT -> enableBt()
+                Constants.REQUEST_DISCOVERABILITY_BT -> enableDiscoverability()
+                Constants.REQUEST_PAIRED_BT -> getPairedDevice()
+                Constants.REQUEST_ACCESS_COARSE_LOCATION -> discoverDevices()
+                Constants.REQUEST_BLUETOOTH_SCAN -> discoverDevices()
             }
         } else {
             if (shouldShowRequestPermissionRationale(BtPermission)) {
-                Toast.makeText(this, "Bluetooth permission required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Bluetooth permission required", Toast.LENGTH_SHORT).show()
                 Log.d("Enable bluetooth", "Bluetooth permission required")
             }
             requestPermissions(arrayOf(BtPermission), requestCode)
@@ -195,31 +193,31 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_ENABLE_BT) {
+        if (requestCode == Constants.REQUEST_ENABLE_BT) {
             if (grantResults.isNotEmpty()) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     enableBt()
                 } else {
                     Log.d("Enable bluetooth: ", "Permission denied")
-                    Toast.makeText(this, "Give permission", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Give permission", Toast.LENGTH_SHORT).show()
                 }
             }
-        } else if (requestCode == REQUEST_DISCOVERABILITY_BT) {
+        } else if (requestCode == Constants.REQUEST_DISCOVERABILITY_BT) {
             if (grantResults.isNotEmpty()) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     enableDiscoverability()
                 } else {
                     Log.d("Enable bluetooth discoverability ", "Permission denied")
-                    Toast.makeText(this, "Give permission", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Give permission", Toast.LENGTH_SHORT).show()
                 }
             }
-        } else if (requestCode == REQUEST_PAIRED_BT) {
+        } else if (requestCode == Constants.REQUEST_PAIRED_BT) {
             if (grantResults.isNotEmpty()) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getPairedDevice()
                 } else {
                     Log.d("Enable bluetooth paired req ", "Permission denied")
-                    Toast.makeText(this, "Give permission", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Give permission", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
@@ -228,7 +226,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
                     discoverDevices()
                 } else {
                     Log.d("Enable bluetooth discover device req ", "Permission denied")
-                    Toast.makeText(this, "Give permission", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Give permission", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -242,7 +240,7 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent)
                 val intentFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
                 mReceiverEnableDisable = BluetoothReceiver()
-                registerReceiver(mReceiverEnableDisable, intentFilter)
+                context?.registerReceiver(mReceiverEnableDisable, intentFilter)
             } catch (e: SecurityException) {
                 Log.i("Bluetooth Permission", "Permission Revoked")
             }
@@ -252,18 +250,20 @@ class BluetoothActivity : AppCompatActivity(), View.OnClickListener {
                 bluetoothAdapter.disable()
                 val intentFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
                 mReceiverEnableDisable = BluetoothReceiver()
-                registerReceiver(mReceiverEnableDisable, intentFilter)
+                context?.registerReceiver(mReceiverEnableDisable, intentFilter)
             } catch (e: SecurityException) {
                 Log.i("Bluetooth Permission", "Permission Revoked")
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        if (mReceiverDiscoverDevices != null) unregisterReceiver(mReceiverDiscoverDevices)
-        if (mReceiverDiscoverability != null) unregisterReceiver(mReceiverDiscoverability)
-        if (mReceiverEnableDisable != null) unregisterReceiver(mReceiverEnableDisable)
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (mReceiverDiscoverDevices != null) context?.unregisterReceiver(mReceiverDiscoverDevices)
+        if (mReceiverDiscoverability != null) context?.unregisterReceiver(mReceiverDiscoverability)
+        if (mReceiverEnableDisable != null) context?.unregisterReceiver(mReceiverEnableDisable)
+
+        mBinding = null
     }
 }

@@ -1,18 +1,21 @@
-package com.example.iwayplus.views.activities
+package com.example.iwayplus.views.fragments
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.example.iwayplus.databinding.ActivityCompassBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.iwayplus.databinding.FragmentCompassBinding
 
-@AndroidEntryPoint
-class CompassActivity : AppCompatActivity(), View.OnClickListener, SensorEventListener {
-    private lateinit var mBinding : ActivityCompassBinding
+
+class CompassFragment : Fragment(), View.OnClickListener, SensorEventListener {
+
+    private var mBinding : FragmentCompassBinding? = null
     private lateinit var sensorManager : SensorManager
     private lateinit var sensorAccelerometer : Sensor
     private lateinit var sensorMagneticField : Sensor
@@ -22,28 +25,25 @@ class CompassActivity : AppCompatActivity(), View.OnClickListener, SensorEventLi
     private var floatOrientation : FloatArray? = FloatArray(3)
     private var floatRotationMatrix : FloatArray? = FloatArray(9)
 
-//    private val viewModel by viewModels<CompassViewModel>()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mBinding = ActivityCompassBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
+        mBinding = FragmentCompassBinding.inflate(inflater, container, false)
+        return mBinding!!.root
+    }
 
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sensorManager = context?.getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
 
 
-        mBinding.btnReset.setOnClickListener(this)
-
-
-//        mBinding.compass.rotation = viewModel.finalAngle.value
-
-
+        mBinding!!.btnReset.setOnClickListener(this)
     }
-
-
-
 
     override fun onResume() {
         super.onResume()
@@ -61,29 +61,32 @@ class CompassActivity : AppCompatActivity(), View.OnClickListener, SensorEventLi
             SensorManager.getOrientation(floatRotationMatrix, floatOrientation)
             val angle = floatOrientation?.get(0)
             val finalAngle = angle?.times(-57.29582790879777f) ?: 270f
-            mBinding.compass.rotation = finalAngle
+            mBinding!!.compass.rotation = finalAngle
         }
     }
 
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-
-    }
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) = Unit
 
     override fun onClick(view: View?) {
         when(view?.id){
-            mBinding.btnReset.id -> {
+            mBinding!!.btnReset.id -> {
                 resetCompass()
             }
         }
     }
 
     private fun resetCompass() {
-        mBinding.compass.rotation = 0f
+        mBinding!!.compass.rotation = 0f
     }
 
     override fun onPause() {
         super.onPause()
         //might have to delete it.
         sensorManager.unregisterListener(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mBinding = null
     }
 }
