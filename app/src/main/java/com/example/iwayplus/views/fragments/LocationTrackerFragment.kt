@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import com.example.iwayplus.databinding.FragmentLocationTrackerBinding
-import com.example.iwayplus.model.gpsUtils.LocationService
+import com.example.iwayplus.utils.gpsUtils.LocationService
 
 class LocationTrackerFragment : Fragment() {
 

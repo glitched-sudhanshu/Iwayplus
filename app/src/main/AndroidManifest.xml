@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IWAYPLUS"
         tools:targetApi="31">
-        <service android:name="com.example.iwayplus.model.gpsUtils.LocationService" android:foregroundServiceType="location"/>
+        <service android:name="com.example.iwayplus.utils.gpsUtils.LocationService" android:foregroundServiceType="location"/>
         <activity
             android:name=".views.activities.MainActivity"
             android:exported="true">

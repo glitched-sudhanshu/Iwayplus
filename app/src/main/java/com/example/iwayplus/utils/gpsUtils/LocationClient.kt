@@ -1,4 +1,4 @@
-package com.example.iwayplus.model.gpsUtils
+package com.example.iwayplus.utils.gpsUtils
 
 import android.location.Location
 import kotlinx.coroutines.flow.Flow

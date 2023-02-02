@@ -2,7 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id "org.jetbrains.kotlin.kapt"
-    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+    //It is for navigation safe args
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -52,11 +54,18 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1" // For Kotlin use lifecycle-viewmodel-ktx
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
 
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
+
+    def room_version = "2.4.3"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    //optional- Kotlin ext. and coroutines support for room
+    implementation("androidx.room:room-ktx:$room_version")
 }
 
 kapt {

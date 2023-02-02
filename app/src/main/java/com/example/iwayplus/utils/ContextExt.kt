@@ -1,4 +1,4 @@
-package com.example.iwayplus.model.utils
+package com.example.iwayplus.utils
 
 import android.Manifest
 import android.content.Context

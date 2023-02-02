@@ -1,4 +1,4 @@
-package com.example.iwayplus.receivers
+package com.example.iwayplus.utils.receivers
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
@@ -8,6 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import java.text.SimpleDateFormat
+import java.util.*
+import com.example.iwayplus.model.data.BluetoothDevice as DiscoveredBluetoothDevice
 
 class DiscoverDeviceReceiver : BroadcastReceiver() {
 

@@ -1,4 +1,4 @@
-package com.example.iwayplus.model.sensors
+package com.example.iwayplus.utils.sensors
 
 import android.content.Context
 import android.hardware.Sensor

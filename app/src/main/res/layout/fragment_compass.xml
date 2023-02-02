@@ -10,22 +10,63 @@
         android:id="@+id/compass"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/compass" />
 
     <Button
-        android:id="@+id/btnReset"
+        android:id="@+id/btnSaveCompassData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Reset"
+        android:layout_marginTop="80dp"
+        android:enabled="false"
+        android:text="Save data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/compass" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCompassData"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCompassSavedData" />
+
+    <TextView
+        android:id="@+id/txtCompassSavedData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Compass Data"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLoadCompassData" />
+
+    <Button
+        android:id="@+id/btnLoadCompassData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Load Data"
+        app:layout_constraintEnd_toEndOf="@+id/btnSaveCompassData"
+        app:layout_constraintStart_toStartOf="@+id/btnSaveCompassData"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveCompassData" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

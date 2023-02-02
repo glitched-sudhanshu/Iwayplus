@@ -1,4 +1,4 @@
-package com.example.iwayplus.model.gpsUtils
+package com.example.iwayplus.utils.gpsUtils
 
 import android.app.NotificationManager
 import android.app.Service
@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.iwayplus.R
-import com.example.iwayplus.model.utils.Constants.LOCATION_ID
+import com.example.iwayplus.utils.Constants.LOCATION_ID
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

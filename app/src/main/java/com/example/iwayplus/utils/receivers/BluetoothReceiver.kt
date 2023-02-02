@@ -1,4 +1,4 @@
-package com.example.iwayplus.receivers
+package com.example.iwayplus.utils.receivers
 
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver

@@ -17,11 +17,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.iwayplus.databinding.FragmentBluetoothBinding
-import com.example.iwayplus.model.utils.Constants
-import com.example.iwayplus.receivers.BluetoothReceiver
-import com.example.iwayplus.receivers.DiscoverDeviceReceiver
-import com.example.iwayplus.receivers.DiscoverabilityReceiver
+import com.example.iwayplus.utils.Constants
+import com.example.iwayplus.utils.receivers.BluetoothReceiver
+import com.example.iwayplus.utils.receivers.DiscoverDeviceReceiver
+import com.example.iwayplus.utils.receivers.DiscoverabilityReceiver
+import com.example.iwayplus.viewmodel.BluetoothDeviceViewmodel
+import com.example.iwayplus.model.data.BluetoothDevice as DiscoveredBluetoothDevice
 
 class BluetoothFragment : Fragment(), View.OnClickListener {
 
@@ -32,12 +35,16 @@ class BluetoothFragment : Fragment(), View.OnClickListener {
     private var mReceiverDiscoverability: DiscoverabilityReceiver? = null
     private var mReceiverDiscoverDevices: DiscoverDeviceReceiver? = null
 
+    private lateinit var mViewModel : BluetoothDeviceViewmodel
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
 
         mBinding = FragmentBluetoothBinding.inflate(inflater, container, false)
+        mViewModel = ViewModelProvider(this)[(BluetoothDeviceViewmodel::class.java)]
         return mBinding!!.root
     }
 
@@ -108,35 +115,7 @@ class BluetoothFragment : Fragment(), View.OnClickListener {
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
         mReceiverDiscoverDevices = DiscoverDeviceReceiver()
         context?.registerReceiver(mReceiverDiscoverDevices, filter)
-//        bluetoothAdapter.cancelDiscovery()
     }
-
-//    private var mReceiverDiscoverDevices = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//            when (intent?.action) {
-//                BluetoothAdapter.ACTION_STATE_CHANGED -> {
-//                    Log.d("onBTDiscoverDevice", "ACTION_STATE_CHANGED")
-//                }
-//                BluetoothAdapter.ACTION_DISCOVERY_STARTED -> {
-//                    Log.d("onBTDiscoverDevice", "ACTION_DISCOVERY_STARTED")
-//                }
-//                BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
-//                    Log.d("onBTDiscoverDevice", "ACTION_DISCOVERY_FINISHED")
-//                }
-//                BluetoothDevice.ACTION_FOUND -> {
-//                    val device =
-//                        intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-//                    if (device != null) {
-//                        Log.d("onBTDiscoverDevice", "${device.name} ${
-//                            device
-//                                .address
-//                        }")
-//                    }
-//
-//                }
-//            }
-//        }
-//    }
 
     private fun getPairedDevice() {
         try {

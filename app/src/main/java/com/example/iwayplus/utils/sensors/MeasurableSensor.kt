@@ -1,4 +1,4 @@
-package com.example.iwayplus.model.sensors
+package com.example.iwayplus.utils.sensors
 
 abstract class MeasurableSensor(
     protected val sensorType : Int
